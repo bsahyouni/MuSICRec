@@ -262,7 +262,6 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
                 import pandas as pd
                 return pd.DataFrame(data).sort_values([uid_field, time_field])
 
-            # 1) Try feat_name_list (can be dict or list depending on RecBole version)
             feat_name_list = getattr(rb_dataset_obj, "feat_name_list", None)
 
             inter_fields_all = None
@@ -273,7 +272,6 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
                 # some builds expose a flat list of all fields; we’ll filter later
                 inter_fields_all = list(feat_name_list)
 
-            # 2) If still unknown, fall back to reading the Interaction keys directly
             if not inter_fields_all:
                 _inter = train_data.dataset.inter_feat
                 # Interaction can expose .interaction (dict) or be iterable over field names
@@ -286,7 +284,7 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
                         # last resort: probe attributes
                         inter_fields_all = [k for k in dir(_inter) if not k.startswith("_")]
 
-            # 3) Build context candidates by excluding base & sequential fields
+            # Build context candidates by excluding base & sequential fields
             base_exclude = {
                 uid_field,
                 iid_field,
@@ -707,14 +705,14 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
                 vals.append(s)
             config['checkpoint_name_tag'] = ".".join(vals)[:80]
 
-            # best_valid_score, best_valid_result, best_test_upon_valid = trainer.fit(
-            #     train_data, valid_data=valid_data, test_data=test_data, saved=save_model)
+             best_valid_score, best_valid_result, best_test_upon_valid = trainer.fit(
+                 train_data, valid_data=valid_data, test_data=test_data, saved=save_model)
 
             if save_model and getattr(trainer, "best_ckpt_path", None):
                 state = torch.load(trainer.best_ckpt_path, map_location=config['device'])
                 model.load_state_dict(state['model_state_dict'])
 
-            # NEW — run bucketed TEST evaluation
+            #run bucketed TEST evaluation
             uid_field, iid_field = train_dataset.uid_field, train_dataset.iid_field
             bucket_metrics = {}
             for (label, lo, hi) in USER_HISTORY_BUCKETS:
@@ -731,7 +729,7 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
                     for k in (10, 20):
                         bucket_metrics[f"test_{m}@{k}_{label}"] = res.get(f"{m}@{k}", "")
 
-            # NEW — append a row to the user-bucket CSV
+            # append a row to the user-bucket CSV
             with open(bucket_csv, 'a', newline='') as f:
                 writer = csv.writer(f)
                 hyperparams_str = dict(zip(config['hyper_parameters'], hyper_tuple))
@@ -780,20 +778,6 @@ def quick_start(models, dataset, config_dict, save_model=True, mg=False):
         logger.info('\tParameters: {},\nValid: {},\nTest: {}\n\n'.format(hyperparams_str,
                                                                          dict2str(best_valid_results),
                                                                          dict2str(best_test_results)))
-
-        # Save embeddings if the model is 'freedom' and best_model exists
-        if model_name.lower() == 'freedom' and best_model is not None:
-            # Call the forward function with the adjacency matrix
-            adj = best_model.norm_adj  # Get the adjacency matrix
-            adj = adj.to(config['device'])  # Ensure it's on the correct device
-            # Get the user and item embeddings
-            user_embeddings, item_embeddings = best_model(adj)
-            # Ensure that embeddings are detached and moved to CPU
-            user_embeddings = user_embeddings.detach().cpu()
-            item_embeddings = item_embeddings.detach().cpu()
-            torch.save(user_embeddings, 'best_user_embeddings_clothing.pt')
-            torch.save(item_embeddings, 'best_item_embeddings_clothing.pt')
-            logger.info('User and item embeddings have been saved as .pt files for the FREEDOM model.')
 
         # Update overall best model if current model's best validation metric is better
         if best_valid_value > overall_best_value:
