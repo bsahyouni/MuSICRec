@@ -1,13 +1,13 @@
-# MuSTRec – Quick-start
+# MuSICRec – Quick-start
 
-Minimal instructions to get **MuSTRec** running on the four Amazon subsets **baby · clothing · sports · elec**.
+Minimal instructions to get **MuSICRec** and all baselines running on the Amazon subsets **baby · sports · elec**.
 
 ---
 
 ## 1. Setup
 ```bash
 # after downloading the repo
-cd MuSTRec
+cd MuSICRec
 
 # create env & install deps
 python -m venv venv        # or conda
@@ -19,9 +19,9 @@ pip install -r requirements.txt
 
 ## 2. Grab the data
 1. Open **`data/README.md`** and follow the Google‑Drive link.  
-2. Download the data for baby, clothing, sports and elec so you have all image\_feat.npy and text\_feat.npy for all the datasets and also:
+2. Download the data for baby, sports and elec so you have all image\_feat.npy and text\_feat.npy for all the datasets. Interaction files included and yaml files configured to use them:
    ```
-   data/{baby,clothing,sports,elec}/{dataset}.inter
+   data/{baby,clothing,sports,elec}/{dataset_diff_split}.inter
    ```
 
 ---
@@ -32,25 +32,24 @@ pip install -r requirements.txt
 # you need to go into the script and modify the file path for each dataset
 python data/diff_split.py
 
-# 3‑B  turn interactions into padded sequences (max_len=50)
-# you need to go into the script and modify the file path to access the .inter files for each dataset.
-python preprocessing/new_seq.py     --dataset baby     --input  data/raw/baby/baby_diff.inter
+# 3‑B  turn interactions into sequences
+# you need to go into the script and modify the file path to access the .inter files for each dataset. This creates the sequences for each user to build sequence nodes.
+python MuSICRec/data/baby/sequence_generate_new.py     
 ```
-Create `{dataset}_new.txt` and `{dataset}_diff_split.inter` files for all datasets.
+`{dataset}_diff_split.inter` and `{dataset}_sequence_train` files have been supplied.
 
 ---
 
-## 4. Tell MuSTRec where the `{dataset}_new.txt` files live
-This needs to be edited manually in `src/utils/seq_dataset.py`
-It should be set for baby dataset by default.
+## 4. Our model is named as SGCL in the repo. sgcl.py contains MuSICRec implementation
+This will be modified for publication
 
 
 ## 5. Train / evaluate
 ```bash
 python src/main.py --dataset baby        # <- choose clothing / sports / elec
 # optional extras
-#   --model MuSTRec   # default
-#   --mg              # default false
+#   --model SGCL   # default
+#   --congig       # config override for ablation
 ```
 
 ---
