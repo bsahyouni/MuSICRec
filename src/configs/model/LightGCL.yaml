@@ -1,0 +1,13 @@
+embedding_size: 64
+weight_size: [64, 64]
+n_layers: [1, 2]
+optimizer: adam
+reg_weight: [0]
+ssl_reg: [1e-7]
+ssl_temp: [0.1]
+edge_dropout: [0.0]
+#ssl_reg: [3e-8, 1e-7, 3e-7]
+#ssl_temp: [0.1, 0.2, 0.5]
+#edge_dropout: [0.0, 0.1]
+svd_rank: [5]
+hyper_parameters: ["n_layers", "reg_weight", "ssl_reg", "ssl_temp", "edge_dropout", "svd_rank"]

@@ -1,0 +1,38 @@
+embedding_size: 64
+feat_embed_dim: 64
+weight_size: [64, 64]
+
+# The number of GNN layers for user–item graph
+n_ui_layers: 3
+
+# The number of GNN layers for subsequence–item graph
+n_ss_layers: 2
+
+n_mm_layers: 1
+
+ss_dist_threshold: [0.5, 0.3]
+tau: [0.3, 0.5]
+#tau: [0.2, 0.3, 0.5, 0.1]
+#lambda_seqcl: [0.1, 0.01]
+##lambda_seqcl: [0.1, 0.01, 0.001, 0.0001]
+#lambda_itemcl: [0.1, 0.01, 0.001, 0.0001]
+#lambda_userseqcl: [0, 0.1, 0.01, 0.001, 0.0001]
+lambda_seqcl: [0.001, 0.0001]
+lambda_itemcl: [0.0001, 0.001, 0.01]
+#lambda_userseqcl: [0.0001, 0.001, 0.01, 0.1]
+lambda_userseqcl: [0.01, 0, 0.0001]
+
+dropout: 0
+
+pooling_type: ["addatt"]
+#pooling_type: ["sinus"]
+
+mm_image_weight: 0.1
+
+mm_residual_alpha: 0
+mm_gate_temp: 1.0
+mm_gate_cap: 0.20
+
+knn_k: 15
+
+hyper_parameters: ["ss_dist_threshold", "pooling_type", "lambda_seqcl", "lambda_itemcl", "lambda_userseqcl", "tau"]

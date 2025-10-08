@@ -1,0 +1,47 @@
+embedding_size: 64
+feat_embed_dim: 64
+weight_size: [64, 64]
+
+#Determine whether to fuse user and sequence embeddings
+use_user_seq_fusion: [false]
+
+# Apply L2-normalisation to both embeddings before adding
+fusion_norm: [false]                # change to [false] if you want raw sums
+#fusion_norm: [false]
+
+# Set Pooling type
+pooling_type: ["addatt"]
+#pooling_type: ["fastatt"]
+#pooling_type: ["sinus"]
+
+# The number of GNN layers for user–item graph
+n_ui_layers: 3
+# The number of GNN layers for subsequence–item graph
+n_ss_layers: [2]
+#n_ss_layers: [2]
+#n_ss_layers: [3]
+
+# Levenshtein distance threshold for connecting subsequences
+ss_dist_threshold: [0.7]
+#ss_dist_threshold: [0.9, 0.7]
+#ss_dist_threshold: [0.5, 0.3]
+
+# Subsequence file to load; rename as needed
+subseq_file_name: "baby_subsequences.txt"
+
+# Regularization or weight decay
+#reg_weight: [0.0001]  # you can explore [1e-5, 1e-4, 1e-3, 0.001, etc.]
+
+# Dropout proportion for adjacency edge removal
+dropout: 0      # you can explore different sets, e.g. [0.8, 0.9]
+
+# Factor determining contribution of ui and si convolution updates
+model_beta: [0]
+#model_beta: [0.001]
+
+# Factor for combining user and sequence embeddings
+model_alpha: [0]
+#model_alpha: [0.1, 1]
+
+# Additional hyper-parameters you might tune
+hyper_parameters: ["pooling_type", "n_ss_layers", "ss_dist_threshold", "model_beta", "use_user_seq_fusion", "fusion_norm", "model_alpha"]

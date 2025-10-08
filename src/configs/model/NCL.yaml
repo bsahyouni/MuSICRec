@@ -1,0 +1,15 @@
+embedding_size: 64      # same as paper
+weight_size: [64, 64]
+n_layers: 3             # LightGCN propagation depth
+reg_weight: 1e-4        # L2 for BPR
+
+# —— Contrastive learning ——
+ssl_temp: 0.2           # τ in InfoNCE
+ssl_reg: 0.1           # λ in Eq.5, controls layer contrast loss
+hyper_layers: 1        # use layer 0 vs. layer 2 as views
+alpha: 1.0             # weight for item branch (user part fixed to 1)
+
+# —— Prototype NCE ——
+proto_reg: 0.2          # γ in Eq.7
+num_clusters: 2048      # K for k‑means prototypes
+cluster_refresh: 10     # refresh prototype every N epochs

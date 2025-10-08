@@ -1,0 +1,7 @@
+# —— Embeddings & GCN ——
+embedding_size: 64      # embedding dimension d
+weight_size: [64, 64]
+n_layers: [1, 2, 3]
+mess_dropout: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+reg_weight: [1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100]        # L2 regulariser
+hyper_parameters: ["n_layers", "mess_dropout", "reg_weight"]

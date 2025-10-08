@@ -1,0 +1,11 @@
+# —— Embedding & GCN ——
+embedding_size: 64
+weight_size: [64, 64]
+n_layers: 3
+reg_weight: [1e-5, 1e-4, 1e-3]
+# —— Contrastive learning ——
+ssl_reg: [1e-5, 1e-4, 1e-3]        # λ in paper
+ssl_temp: 0.2       # τ (temperature)
+eps: [0.05, 0.1, 0.2]            # ε (noise scale)
+
+hyper_parameters: ["reg_weight", "ssl_reg", "eps"]

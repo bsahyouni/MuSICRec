@@ -1,0 +1,25 @@
+# Python / DS basics
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+.env
+.DS_Store
+
+# Checkpoints, weights, big artifacts -> prefer LFS
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.h5
+*.npz
+
+# Outputs / caches
+logs/
+wandb/
+lightning_logs/
+outputs/
+cache/
+.tmp/
