@@ -34,7 +34,7 @@ def jaccard_sim(seq1, seq2):
     return 0.0 if union == 0 else inter / union
 
 #################################################
-# 1) LEVENSHTEIN DISTANCE FUNCTION
+LEVENSHTEIN DISTANCE FUNCTION
 #################################################
 def levenshtein_distance(seq1, seq2):
     """
@@ -73,7 +73,7 @@ def build_subseq_tensor(subseq_map, max_len):
 
 
 #################################################
-# 2) BUILD SUBSEQUENCE–SUBSEQUENCE + SUBSEQUENCE–ITEM GRAPH
+BUILD SUBSEQUENCE–SUBSEQUENCE + SUBSEQUENCE–ITEM GRAPH
 #################################################
 def build_subseq_graph_with_items(subseq_map, n_items, dist_threshold, use_knn=False, knn_k=10, metric="jacc"):
     """
@@ -213,7 +213,7 @@ def build_subseq_graph_with_items(subseq_map, n_items, dist_threshold, use_knn=F
 
 
 #################################################
-# 3) SSG MODEL (SUBSEQUENCE–SUBSEQUENCE + USER–ITEM)
+SSG MODEL (SUBSEQUENCE–SUBSEQUENCE + USER–ITEM)
 #################################################
 class SGCL(GeneralRecommender):
     r"""
@@ -275,7 +275,7 @@ class SGCL(GeneralRecommender):
                 embed_dim=self.embedding_dim,
                 n_heads=4)
 
-        # --- NEW: Subsequence Embeddings + Subsequence Graph ---
+        # --- Subsequence Embeddings + Subsequence Graph ---
         # We assume config or dataset can provide these:
         #  - n_subseq: total subsequence count
         #  - subseq_map: dict {subseq_id: [item_ids]}
@@ -408,10 +408,6 @@ class SGCL(GeneralRecommender):
         self.mm_align_weight = config['mm_align_weight']
 
         self.mm_adj = None
-
-        # # Try to get features from data_extra (preferred) or dataset
-        # self.v_feat = getattr(data_extra, 'v_feat', None) or getattr(dataset, 'v_feat', None)
-        # self.t_feat = getattr(data_extra, 't_feat', None) or getattr(dataset, 't_feat', None)
 
         # Projections (only if features exist)
         if self.v_feat is not None:
@@ -632,7 +628,7 @@ class SGCL(GeneralRecommender):
             self._refresh_all(self.item_embedding.weight)
 
     #################################################
-    # 3.2) SUBSEQUENCE GRAPH BUILDING
+    #SUBSEQUENCE GRAPH BUILDING
     #################################################
     def get_subsequence_adj_mat(self):
         """
@@ -653,7 +649,7 @@ class SGCL(GeneralRecommender):
         return ss_item_adj
 
     #################################################
-    # 3.3) FORWARD PASS
+    FORWARD PASS
     #################################################
     def forward(self, ui_adj,
                 batch_users         = None,
