@@ -21,7 +21,7 @@ pip install -r requirements.txt
 1. Open **`data/README.md`** and follow the Google‑Drive link.  
 2. Download the data for baby, sports and elec so you have all image\_feat.npy and text\_feat.npy for all the datasets. Interaction files included and yaml files configured to use them:
    ```
-   data/{baby,clothing,sports,elec}/{dataset_diff_split}.inter
+   data/{baby,sports,elec}/{dataset_diff_split}.inter
    ```
 
 ---
@@ -40,7 +40,7 @@ python MuSICRec/data/baby/sequence_generate_new.py
 
 ---
 
-## 4. Our model is named as SGCL in the repo. sgcl.py contains MuSICRec implementation
+## 4. Our model is named as SGCL in the repo. sgcl.py under MuSICRec/src/models contains MuSICRec implementation. SGCL.yaml contains hyperparameters and configurations.
 This will be modified for publication
 
 
@@ -49,7 +49,7 @@ This will be modified for publication
 python src/main.py --dataset baby        # <- choose clothing / sports / elec
 # optional extras
 #   --model SGCL   # default
-#   --congig       # config override for ablation
+#   --config       # config override for ablation
 ```
 
 ---
